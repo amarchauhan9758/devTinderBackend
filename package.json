@@ -1,0 +1,21 @@
+{
+  "name": "devtinder",
+  "version": "1.0.0",
+  "description": "This is plateform where developers come and work togeather",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/app.js"
+  },
+  "author": "Adiyogi",
+  "license": "ISC",
+  "keywords": [
+    "nodejs",
+    "reactjs"
+  ],
+  "dependencies": {
+    "express": "^5.1.0",
+    "mongoose": "^8.16.3",
+    "validator": "^13.15.15"
+  }
+}
