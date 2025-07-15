@@ -19,9 +19,9 @@ const validateRegistration = (req) => {
     else if (!email || !validator.isEmail(email)) {
         throw new Error("Invalid email address");
     }
-    else if (!password || !validator.isStrongPassword(password)) {
-        throw new Error("Password must be strong");
-    }
+    // else if (!password || !validator.isStrongPassword(password)) {
+    //     throw new Error("Password must be strong");
+    // }
 }
 
 module.exports = { validateRegistration };
