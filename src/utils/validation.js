@@ -24,4 +24,17 @@ const validateRegistration = (req) => {
     // }
 }
 
-module.exports = { validateRegistration };
+
+const validateProfileUpdate = (req) => {
+
+    const allowedFields = ["lastName", "profileURL", "firstName", "age", "about", "skills"];
+
+    const isAllowed = Object.keys(req.body).every((key) => allowedFields.includes(key));
+    if (!isAllowed) {
+        throw new Error("Invalid fields in profile update");
+    }
+
+
+
+}
+module.exports = { validateRegistration, validateProfileUpdate };

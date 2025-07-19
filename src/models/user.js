@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const validator = require('validator');
+const jwt = require('jsonwebtoken');
 
 
 
@@ -52,7 +53,7 @@ const userSchema = new Schema({
     skils: {
         type: []
     },
-    prolfile: {
+    profileURL: {
         type: String,
         default: 'https://cdn.vectorstock.com/i/1000v/51/05/male-profile-avatar-with-brown-hair-vector-12055105.jpg'
     },
@@ -63,5 +64,13 @@ const userSchema = new Schema({
 
 }, { timestamps: true })
 
+
+userSchema.methods.getJWT = function () {
+    const user = this
+    const token = jwt.sign({ _id: user._id }, "devTinder@1234", { expiresIn: '7d' });
+
+    return token;
+
+}
 const User = mongoose.model('User', userSchema)
 module.exports = User
