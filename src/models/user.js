@@ -55,7 +55,12 @@ const userSchema = new Schema({
     },
     profileURL: {
         type: String,
-        default: 'https://cdn.vectorstock.com/i/1000v/51/05/male-profile-avatar-with-brown-hair-vector-12055105.jpg'
+        default: 'https://cdn.vectorstock.com/i/1000v/51/05/male-profile-avatar-with-brown-hair-vector-12055105.jpg',
+        validator(value) {
+            if (!validator.isURL(value)) {
+                throw new Error(value + ' is not a valid URL')
+            }
+        }
     },
     description: {
         type: String,

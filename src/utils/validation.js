@@ -25,14 +25,18 @@ const validateRegistration = (req) => {
 }
 
 
-const validateProfileUpdate = (req) => {
+const validateProfileUpdate = (req, res, next) => {
 
-    const allowedFields = ["lastName", "profileURL", "firstName", "age", "about", "skills"];
+    const allowedFields = ["lastName", "profileURL", "age", "about", "skills", "gender"];
 
     const isAllowed = Object.keys(req.body).every((key) => allowedFields.includes(key));
+
+    console.log(isAllowed, 'line no 35');
     if (!isAllowed) {
         throw new Error("Invalid fields in profile update");
     }
+
+
 
 
 
