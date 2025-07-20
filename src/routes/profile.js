@@ -7,6 +7,11 @@ const bcrypt = require('bcrypt');
 profileRouter.get("/profile/view", userAuth, async (req, res) => {
     try {
         // console.log(req.cookies)
+        const { token } = req.cookies;
+        if (!token) {
+            throw new Error('Access denied. No token provided.');
+        }
+
         const user = req.user; // User is attached to the request object by the userAuth middleware
         res.send(user);
     } catch (error) {

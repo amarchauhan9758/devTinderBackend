@@ -54,10 +54,17 @@ authRouter.post('/login', async (req, res) => {
 
 authRouter.post('/logout', async (req, res) => {
     try {
+        const { token } = req.cookies;
+        if (!token) {
+            throw new Error('No token provided');
+        }
 
-        res.clearCookie({ 'token': null }, "", { expiresIn: new Date(0) })
-        res.send('Logout Successfully !')
+        // Clear cookie properly
+        res.clearCookie('token', {
+            expires: new Date(0), // Set expiration date to the past
+        });
 
+        res.send('Logout Successfully!');
     } catch (error) {
         res.status(400).send(error.message)
     }

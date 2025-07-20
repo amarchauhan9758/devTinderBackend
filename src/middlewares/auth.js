@@ -8,10 +8,10 @@ const userAuth = async (req, res, next) => {
     try {
         const { token } = req.cookies;
         if (!token) {
-            throw new Erro('Access denied. No token provided.');
+            throw new Error('Access denied. No token provided.');
         }
 
-        const decodeJwt = await jwt.verify(token, 'devTinder@1234', { expiresIn: '7d' });
+        const decodeJwt = await jwt.verify(token, 'devTinder@1234');
 
         const { _id } = decodeJwt;
 
@@ -24,7 +24,7 @@ const userAuth = async (req, res, next) => {
         next(); // Call the next middleware or route handler
 
     } catch (error) {
-        throw new Error(error.message);
+        return res.status(401).send('Unauthorized: ' + error.message);
     }
 
 
