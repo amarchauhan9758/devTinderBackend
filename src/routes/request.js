@@ -60,15 +60,12 @@ requestRouter.post('/request/review/:status/:requestId', userAuth, async (req, r
     try {
         const requestId = req.params.requestId;
         const status = req.params.status;
-        const allowedStatuses = ['interested', 'rejected'];
+        const allowedStatuses = ['accepted', 'rejected'];
 
         const isAllowedStatus = allowedStatuses.includes(status);
         if (!isAllowedStatus) {
-            return res.status(400).send('Invalid status provided. Allowed statuses are: interested, rejected');
+            return res.status(400).send('Invalid status provided.');
         }
-
-
-
 
         const connectionRequest = await ConnectionRequest.findOne({ _id: requestId, toUserId: req.user._id, status: 'interested' });
         if (!connectionRequest) {
@@ -78,9 +75,9 @@ requestRouter.post('/request/review/:status/:requestId', userAuth, async (req, r
         connectionRequest.status = status;
         const data = await connectionRequest.save()
         res.json({
-            message: `You have ${status} the connection request from ${connectionRequest.fromUserId}`,
-            data,
-            status: 'Connection Request Updated Successfully !'
+            message: `Connection request : ${status}`,
+            data
+
         });
 
     } catch (error) {
