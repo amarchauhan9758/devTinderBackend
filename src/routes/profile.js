@@ -13,6 +13,13 @@ profileRouter.get("/profile/view", userAuth, async (req, res) => {
         }
 
         const user = req.user; // User is attached to the request object by the userAuth middleware
+
+        res.json({
+            status: 'success',
+            data: user,
+            message: "Profile Fetch Successfully !"
+        })
+
         res.send(user);
     } catch (error) {
         res.status(400).send(error.message);
