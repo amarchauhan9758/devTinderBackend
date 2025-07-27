@@ -23,13 +23,13 @@ userRouter.get("/user/requests", userAuth, async (req, res) => {
       });
     }
 
-    const filteredData = connectionRequest.map((req) => ({
-      fromUser: req.fromUserId, // this will only have USER_SAFE_FIELDS
-    }));
+    // const filteredData = connectionRequest.map((req) => ({
+    //   fromUser: req.fromUserId, // this will only have USER_SAFE_FIELDS
+    // }));
 
     res.json({
       message: "Connection requests fetched successfully",
-      data: filteredData,
+      data: connectionRequest,
     });
   } catch (error) {
     console.error("Error fetching connection requests:", error);
