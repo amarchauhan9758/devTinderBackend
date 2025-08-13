@@ -11,11 +11,13 @@ const USER_SAFE_FIELDS = "firstName profileURL  lastName about skills";
 userRouter.get("/user/requests", userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
+    console.log(loggedInUser, "line no 14");
     const connectionRequest = await ConnectionRequest.find({
       toUserId: loggedInUser._id,
       status: "interested",
-    }).populate("fromUserId", USER_SAFE_FIELDS); // Populate fromUserId with name and profileURL
-    console.log(connectionRequest, "line no 18");
+    }).populate("fromUserId", USER_SAFE_FIELDS);
+    // Populate fromUserId with name and profileURL
+
     if (!connectionRequest || connectionRequest.length === 0) {
       return res.status(500).send({
         data: null,
@@ -31,9 +33,8 @@ userRouter.get("/user/requests", userAuth, async (req, res) => {
       message: "Connection requests fetched successfully",
       data: connectionRequest,
     });
-  } catch (error) {
-    console.error("Error fetching connection requests:", error);
-    return res.status(500).send("Internal Server Error");
+  } catch (err) {
+    req.statusCode(400).send("ERROR: " + err.message);
   }
 });
 
@@ -44,17 +45,17 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
     const connectionRequestes = await ConnectionRequest.find({
       $or: [
         { toUserId: loggedInUser._id, status: "accepted" },
-        { toFromUserId: loggedInUser._id, status: "accepted" },
+        { fromUserId: loggedInUser._id, status: "accepted" },
       ],
     })
       .populate("fromUserId", USER_SAFE_FIELDS)
       .populate("toUserId", USER_SAFE_FIELDS);
 
-    const data = connectionRequestes.map((item) => {
-      if (item.fromUserId._id.equals(loggedInUser._id)) {
-        return item.toUserId;
+    const data = connectionRequestes.map((row) => {
+      if (row.fromUserId._id.toString() === loggedInUser._id.toString()) {
+        return row.toUserId;
       }
-      return item.fromUserId;
+      return row.fromUserId;
     });
 
     res.json({
@@ -62,7 +63,7 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
       data: data,
     });
   } catch (error) {
-    res.status(500).send(error.message);
+    res.status(400).send({ message: error.message });
   }
 });
 
