@@ -8,7 +8,7 @@ authRouter.post("/signup", async (req, res) => {
   try {
     validateRegistration(req);
     const { firstName, lastName, email, password } = req.body;
-    console.log(password, "line no 20");
+
     const encrpytedPassword = await bcrypt.hash(password, 10);
 
     const user = new User({
@@ -30,7 +30,7 @@ authRouter.post("/signup", async (req, res) => {
 authRouter.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log(email, password, "line no 36");
+
     const user = await User.findOne({ email: email });
 
     if (!user) {
