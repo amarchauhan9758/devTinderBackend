@@ -8,9 +8,14 @@ const http = require("http");
 const app = express();
 const port = 4000;
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "https://myproductionapp.com",
+];
 app.use(
   cors({
-    origin: "http://localhost:5173", // frontend URL
+    origin: allowedOrigins, // frontend URL
     credentials: true,
   })
 );
@@ -22,11 +27,13 @@ const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
+const paymentRouter = require("./routes/payment");
 
 app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
+app.use("/", paymentRouter);
 
 const server = http.createServer(app);
 initalzaiedSocket(server);

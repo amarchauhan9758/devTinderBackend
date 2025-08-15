@@ -1,12 +1,12 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
+require("dotenv").config();
 
 const connectDB = async () => {
-    mongoose.connect('mongodb+srv://amarchauhan06232:HnrpnED16vULbwHe@cluster0.qul64bv.mongodb.net/devTinder')
+  mongoose.connect(process.env.DB_URL);
+  // mongoose.connect('mongodb+srv://amarchauhan06232:HnrpnED16vULbwHe@cluster0.qul64bv.mongodb.net/devTinder')
+};
 
-
-}
-
-module.exports = connectDB
+module.exports = connectDB;
 
 // connectDB()
 //     .then(console.log(
@@ -14,4 +14,3 @@ module.exports = connectDB
 //     ))
 //     .catch((e) => console.log(e))
 // .finally(() => mongoose.close())
-
