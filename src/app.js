@@ -11,7 +11,7 @@ const port = 4000;
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
-  "https://myproductionapp.com",
+  "https://singular-cupcake-899478.netlify.app/",
 ];
 app.use(
   cors({
