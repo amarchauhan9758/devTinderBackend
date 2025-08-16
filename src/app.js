@@ -15,7 +15,7 @@ const allowedOrigins = [
 ];
 app.use(
   cors({
-    origin: allowedOrigins, // frontend URL
+    origin: ["http://localhost:5173", "https://devtinder-07.netlify.app/"], // frontend URL
     credentials: true,
   })
 );
