@@ -43,7 +43,12 @@ authRouter.post("/login", async (req, res) => {
       throw new Error("Invalid Credentials");
     } else {
       const token = user.getJWT();
-      res.cookie("token", token);
+      res.cookie("token", token, {
+        httpOnly: true, // prevents JS from accessing it
+        secure: true, // required for HTTPS (Netlify)
+        sameSite: "none", // allows cross-origin cookies
+        maxAge: 7 * 24 * 60 * 60 * 1000, // allows cross-origin cookies
+      });
       res.json({
         status: "success",
         data: user,

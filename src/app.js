@@ -8,11 +8,6 @@ const http = require("http");
 const app = express();
 const port = 4000;
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:3000",
-  "https://singular-cupcake-899478.netlify.app/",
-];
 app.use(
   cors({
     origin: ["http://localhost:5173", "https://devtinder-07.netlify.app"], // frontend URL
