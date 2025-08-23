@@ -13,16 +13,12 @@ requestRouter.post(
       const toUserId = req?.params?.toUserId;
       const status = req.params.status;
 
-      const allowredStatuses = ["interested", "ignored"];
-
-      const isAllowedConnection = allowredStatuses.includes(status);
-
-      if (!isAllowedConnection) {
+      const allowedStatus = ["ignored", "interested"];
+      if (!allowedStatus.includes(status)) {
         return res
           .status(400)
           .json({ message: "Invalid status type: " + status });
       }
-
       const toUserIdValid = await User.findById(toUserId);
       if (!toUserIdValid) {
         return res.status(400).send({ message: "User not found!" });
@@ -51,7 +47,11 @@ requestRouter.post(
       const data = await connectionRequest.save();
       res.json({
         message:
-          req.user.firstName + " is " + status + " in " + toUser.firstName,
+          req.user.firstName +
+          " is " +
+          status +
+          " in " +
+          toUserIdValid.firstName,
         data,
       });
     } catch (error) {
