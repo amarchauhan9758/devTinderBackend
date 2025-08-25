@@ -32,6 +32,13 @@ const userSchema = new Schema(
     gender: {
       type: String,
     },
+    isPremium: {
+      type: Boolean,
+      default: false,
+    },
+    membershipType: {
+      type: String,
+    },
     email: {
       type: String,
       lowercase: true,
@@ -45,7 +52,7 @@ const userSchema = new Schema(
       },
     },
     skils: {
-      type: [],
+      type: ["String"],
     },
     profileURL: {
       type: String,
