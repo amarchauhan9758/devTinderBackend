@@ -11,7 +11,7 @@ const USER_SAFE_FIELDS = "firstName profileURL  lastName about skills";
 userRouter.get("/user/requests", userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
-    console.log(loggedInUser, "line no 14");
+
     const connectionRequest = await ConnectionRequest.find({
       toUserId: loggedInUser._id,
       status: "interested",
@@ -80,14 +80,11 @@ userRouter.get("/user/feed", userAuth, async (req, res) => {
       $or: [{ fromUserId: loggedInUser._id }, { toUserId: loggedInUser._id }],
     });
 
-    console.log(connectionRequests, "line no 79");
-
     const hideUserFromFeed = new Set();
     connectionRequests.forEach((req) => {
       hideUserFromFeed.add(req.fromUserId.toString());
       hideUserFromFeed.add(req.toUserId.toString());
     });
-    // console.log(hideUserFromFeed, 'line no 83')
 
     const users = await User.find({
       $and: [
@@ -98,7 +95,6 @@ userRouter.get("/user/feed", userAuth, async (req, res) => {
       .select(USER_SAFE_FIELDS)
       .skip(skip)
       .limit(limit);
-    // console.log(users, 'line no 85')
 
     res.send(users);
   } catch (error) {
