@@ -45,13 +45,13 @@ paymentRouter.post("/payment/create", userAuth, async (req, res) => {
       notes: order.notes,
     });
 
-    const savePayment = await payment.save();
-
-    res.json({
-      status: "success",
-      data: savePayment,
-      message: "Order created successfully",
-    });
+    const savedPayment = await payment.save();
+    res.json({ ...savedPayment.toJSON(), keyId: process.env.RAZORPAY_KEY_ID });
+    // res.json({
+    //   status: "success",
+    //   data: savePayment,
+    //   message: "Order created successfully",
+    // });
   } catch (error) {
     console.error("Error creating payment order:", error);
     res.status(400).send(error.message);
@@ -68,7 +68,7 @@ paymentRouter.post("/api/webhook", async (req, res) => {
     );
 
     if (!isWebhookValid) {
-      return res.status(400).JSON({ message: "Invalid webhook signature" });
+      return res.status(400).json({ message: "Invalid webhook signature" });
     }
     // Udpate my payment Status in DB
     const paymentDetails = req.body.payload.payment.entity;
@@ -94,6 +94,8 @@ paymentRouter.post("/api/webhook", async (req, res) => {
 
 paymentRouter.get("/premium/verify", userAuth, async (req, res) => {
   const user = req.user.toJSON();
+
+  console.log(user, "line no 98");
 
   if (user.isPremium) {
     return res.json({ ...user });
